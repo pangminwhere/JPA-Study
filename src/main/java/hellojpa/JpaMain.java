@@ -1,9 +1,10 @@
 package hellojpa;
 
-import hellojpa.domain.Member;
-import hellojpa.domain.Team;
+import hellojpa.domain.MemberEx;
+import hellojpa.domain.MemberEx2;
+import hellojpa.domain.TeamEx;
+import hellojpa.domain.TeamEx2;
 import jakarta.persistence.*;
-import org.h2.engine.User;
 
 import java.util.List;
 
@@ -23,14 +24,14 @@ public class JpaMain {
             (단, 객체지향의 관점에서 보면 항상 양쪽 다 값을 입력해줘야 한다.)
              */
             //저장
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
+            TeamEx teamEx = new TeamEx();
+            teamEx.setName("TeamA");
+            em.persist(teamEx);
 
-            Member member = new Member();
-            member.setUsername("member1");
-            member.chageTeam(team);
-            em.persist(member);
+            MemberEx memberEx = new MemberEx();
+            memberEx.setUsername("member1");
+            memberEx.chageTeam(teamEx);
+            em.persist(memberEx);
 
             /*
             여기서 아래의 코드는 양방향 매핑 시 필요조건이 아니다.
@@ -43,11 +44,27 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Team findTeam = em.find(Team.class, team.getId()); // 영속성 컨택스트의 1차 캐시
-            List<Member> members = findTeam.getMembers();
-            for (Member m : members) {
+            TeamEx findTeamEx = em.find(TeamEx.class, teamEx.getId()); // 영속성 컨택스트의 1차 캐시
+            List<MemberEx> memberExes = findTeamEx.getMembers();
+            for (MemberEx m : memberExes) {
                 System.out.println("m = " + m.getUsername());
             }
+
+            /*
+            일대다 단방향 연관관계 연습
+            team 설정 후 team의 members 리스트를 받아와 member를 추가하면
+            Member 테이블에 Update 쿼리가 실행되면서 수정 실행
+             */
+            MemberEx2 memberEx2 = new MemberEx2();
+            memberEx2.setName("member1");
+
+            em.persist(memberEx2);
+
+            TeamEx2 teamEx2 = new TeamEx2();
+            teamEx2.setName("TeamA");
+            teamEx2.getMembers().add(memberEx2);
+
+            em.persist(teamEx2);
 
             tx.commit();
         } catch (Exception e) {

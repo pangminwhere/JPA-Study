@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Team {
+public class TeamEx {
 
     @Id @GeneratedValue
     @Column(name = "TEAM_ID")
@@ -24,7 +24,7 @@ public class Team {
 
      */
     @OneToMany(mappedBy = "team")
-    private List<Member> members = new ArrayList<>();
+    private List<MemberEx> memberExes = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -42,12 +42,12 @@ public class Team {
         this.name = name;
     }
 
-    public List<Member> getMembers() {
-        return members;
+    public List<MemberEx> getMembers() {
+        return memberExes;
     }
 
-    public void setMembers(List<Member> members) {
-        this.members = members;
+    public void setMembers(List<MemberEx> memberExes) {
+        this.memberExes = memberExes;
     }
 
 //    @Override
