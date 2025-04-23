@@ -23,7 +23,7 @@ public class TeamEx {
     수정 시 연관관계의 주인이 아닌 가짜 주인의 내용 수정 시 DB에 반영 X
 
      */
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "teamEx")
     private List<MemberEx> memberExes = new ArrayList<>();
 
     public Long getId() {
