@@ -72,6 +72,11 @@ public class JpaMain {
 
             em.persist(movie);
 
+            em.flush();
+            em.clear();
+
+            em.find(Movie.class, movie.getId());
+            System.out.println("movie = " + movie);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
